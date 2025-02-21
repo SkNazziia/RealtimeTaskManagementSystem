@@ -1,0 +1,33 @@
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"; // Change to backend URL
+
+export const fetchTasks = async () => {
+  const response = await fetch(`${API_BASE_URL}/tasks`);
+  return response.json();
+};
+
+export const createTask = async (taskData: { title: string; description: string }) => {
+  const response = await fetch(`${API_BASE_URL}/tasks`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(taskData),
+  });
+  return response.json();
+};
+
+export const loginUser = async (email: string, password: string) => {
+  const response = await fetch(`${API_BASE_URL}/auth/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Login failed");
+  }
+
+  return response.json();
+};
